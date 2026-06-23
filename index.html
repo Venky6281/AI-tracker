@@ -1,107 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>📅 My Daily Tracker</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>🤖 AI Engineer Roadmap Tracker</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-  <!-- ── HEADER ── -->
-  <header>
-    <div class="header-left">
-      <h1>📅 My Daily Timetable Tracker</h1>
-      <span id="live-date"></span>
-    </div>
-    <div class="header-right">
-      <div id="live-clock">🕐 --:--:--</div>
-      <button class="btn-reset-day" onclick="confirmResetDay()">🔄 Reset Day</button>
-    </div>
-  </header>
-
-  <!-- ── TOP SUMMARY BAR ── -->
-  <div class="summary-strip">
-    <div class="summary-card" id="s-completed">✅ Done<br/><strong>0</strong></div>
-    <div class="summary-card" id="s-inprogress">⚡ In Progress<br/><strong>0</strong></div>
-    <div class="summary-card" id="s-delayed">🔴 Auto-Delayed<br/><strong>0</strong></div>
-    <div class="summary-card" id="s-pending">⏳ Pending<br/><strong>0</strong></div>
-    <div class="summary-card" id="s-progress-pct">📊 Progress<br/><strong>0%</strong></div>
+<!-- ═══ HEADER ═══ -->
+<header>
+  <div class="hd-left">
+    <div class="hd-title">🤖 AI Engineer Roadmap Tracker</div>
+    <div class="hd-sub">9-to-5 Jobber → Production AI Engineer · 26 Weeks · 3 Capstones</div>
   </div>
-
-  <!-- ── OVERALL PROGRESS BAR ── -->
-  <div class="global-progress-wrap">
-    <div class="global-progress-bar" id="global-bar">0%</div>
+  <div class="hd-center">
+    <div id="live-clock">🕐 --:--:--</div>
+    <div id="live-date"></div>
   </div>
+  <div class="hd-right">
+    <button class="btn-icon" onclick="confirmResetDay()">🔄 Day</button>
+    <button class="btn-icon" onclick="toggleTheme()">🌗</button>
+  </div>
+</header>
 
-  <!-- ── MAIN SPLIT DASHBOARD ── -->
-  <div class="dashboard">
+<!-- ═══ MEGA SUMMARY STRIP ═══ -->
+<div class="mega-strip">
+  <div class="mega-card">
+    <div class="mc-label">📍 Current Phase</div>
+    <div class="mc-value" id="mc-phase">—</div>
+  </div>
+  <div class="mega-card">
+    <div class="mc-label">📅 Current Week</div>
+    <div class="mc-value" id="mc-week">—</div>
+  </div>
+  <div class="mega-card">
+    <div class="mc-label">✅ Weeks Done</div>
+    <div class="mc-value" id="mc-done" style="color:var(--green)">0/26</div>
+  </div>
+  <div class="mega-card">
+    <div class="mc-label">🏆 Capstones</div>
+    <div class="mc-value" id="mc-caps" style="color:var(--yellow)">0/3</div>
+  </div>
+  <div class="mega-card">
+    <div class="mc-label">🔴 Delayed</div>
+    <div class="mc-value" id="mc-delayed" style="color:var(--red)">0</div>
+  </div>
+  <div class="mega-card">
+    <div class="mc-label">📊 Progress</div>
+    <div class="mc-value" id="mc-pct" style="color:var(--accent)">0%</div>
+  </div>
+  <div class="mega-card">
+    <div class="mc-label">🏁 Est. Finish</div>
+    <div class="mc-value" id="mc-finish" style="color:var(--purple)">—</div>
+  </div>
+</div>
 
-    <!-- LEFT: Planned Timetable -->
-    <div class="panel left-panel">
-      <div class="panel-header">
-        <h2>📌 Planned Timetable</h2>
-        <span class="panel-subtitle">Your exact schedule for today</span>
+<!-- ═══ PHASE BARS ═══ -->
+<div class="phase-bars-row" id="phase-bars-row"></div>
+
+<!-- ═══ GLOBAL PROGRESS BAR ═══ -->
+<div class="global-bar-wrap">
+  <div class="global-bar" id="global-bar"></div>
+</div>
+
+<!-- ═══ DAILY SLOTS ═══ -->
+<div class="daily-strip">
+  <div class="daily-title">⏰ Today's Study Slots</div>
+  <div id="daily-slots-container" class="daily-slots"></div>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div class="dashboard">
+
+  <!-- LEFT: Full Roadmap -->
+  <div class="panel left-panel" id="left-panel">
+    <div class="panel-hdr">
+      <div>
+        <h2>📌 Full AI Engineer Curriculum</h2>
+        <span class="panel-sub">9 phases · 26 weeks · 3 capstones · All modules listed</span>
       </div>
-      <div id="timetable-list"></div>
+      <div class="filter-row">
+        <select id="phase-filter" onchange="render()">
+          <option value="0">All Phases</option>
+          <option value="1">🟢 Phase 1 — Python</option>
+          <option value="2">🔵 Phase 2 — LLM Model</option>
+          <option value="3">🟣 Phase 3 — Prompting</option>
+          <option value="4">🟠 Phase 4 — RAG</option>
+          <option value="5">🔴 Phase 5 — Agents</option>
+          <option value="6">💜 Phase 6 — Memory</option>
+          <option value="7">⭐ Phase 7 — Multi-Agent</option>
+          <option value="8">🔘 Phase 8 — Guardrails</option>
+          <option value="9">🟡 Phase 9 — Cloud</option>
+        </select>
+        <select id="status-filter" onchange="render()">
+          <option value="all">All Status</option>
+          <option value="completed">✅ Done</option>
+          <option value="in-progress">⚡ Active</option>
+          <option value="delayed">🔴 Delayed</option>
+          <option value="pending">⏳ Pending</option>
+        </select>
+      </div>
     </div>
+    <div id="roadmap-list"></div>
+  </div>
 
-    <!-- RIGHT: Progress & Status -->
-    <div class="panel right-panel">
-      <div class="panel-header">
+  <!-- RIGHT: Progress Panel -->
+  <div class="panel right-panel" id="right-panel">
+    <div class="panel-hdr">
+      <div>
         <h2>🚦 My Progress</h2>
-        <span class="panel-subtitle">Live status — auto-detects delays</span>
-      </div>
-
-      <!-- Delay Alert Banner (shows when auto-delays detected) -->
-      <div id="delay-alert" class="delay-alert hidden">
-        ⚠️ <span id="delay-alert-text"></span>
-      </div>
-
-      <!-- Progress Task List -->
-      <div id="progress-list"></div>
-
-      <!-- Delay Log -->
-      <div class="delay-log-section">
-        <h3>📋 Delay Log</h3>
-        <div id="delay-log-container">
-          <p class="no-delays">🎉 No delays yet — great job!</p>
-        </div>
+        <span class="panel-sub">Live status · auto-delay detection · delay log</span>
       </div>
     </div>
 
-  </div>
+    <!-- Delay Alert -->
+    <div id="delay-alert" class="delay-alert hidden"></div>
 
-  <!-- ── MODAL: Delay Reason ── -->
-  <div id="delay-modal" class="modal-overlay hidden">
-    <div class="modal-box">
-      <h3>🔴 Mark as Delayed</h3>
-      <p id="modal-task-name" style="color:#94a3b8;margin-bottom:12px;"></p>
+    <!-- Focus Card -->
+    <div id="focus-card" class="focus-card"></div>
 
-      <label>📝 Reason for delay:</label>
-      <textarea id="modal-reason" placeholder="e.g. Overslept, urgent call, technical issue..."></textarea>
+    <!-- This Week Schedule -->
+    <div id="week-schedule" class="week-schedule-box"></div>
 
-      <label style="margin-top:12px;display:block;">👁️ Visibility:</label>
-      <div class="visibility-toggle">
-        <button id="btn-public"  class="vis-btn active-public"  onclick="setVisibility('public')">
-          🌐 Public (visible on page)
-        </button>
-        <button id="btn-private" class="vis-btn"                onclick="setVisibility('private')">
-          🔒 Private (hidden from page)
-        </button>
-      </div>
-      <small style="color:#64748b;margin-top:6px;display:block;">
-        Public = anyone visiting can see reason. Private = only shown to you (stored locally).
-      </small>
+    <!-- Active Progress Items -->
+    <div id="progress-items"></div>
 
-      <div class="modal-actions">
-        <button class="btn-confirm-delay" onclick="confirmDelay()">✅ Save & Mark Delayed</button>
-        <button class="btn-cancel-modal"  onclick="closeModal()">Cancel</button>
-      </div>
+    <!-- Delay Log -->
+    <div class="delay-log-wrap">
+      <h3 class="delay-log-title">📋 Delay & Slip Log</h3>
+      <div id="delay-log-container"></div>
+    </div>
+
+    <!-- Golden Rules -->
+    <div class="golden-rules">
+      <h3>⚡ Golden Rules</h3>
+      <div class="rule">📌 Consistency > Intensity — 1.5 hrs/day beats 8 hrs on weekends</div>
+      <div class="rule">🏗️ Build in Public — every project on GitHub + 90s Loom demo</div>
+      <div class="rule">🎯 70% Hands-on / 30% Theory — ship before you're ready</div>
+      <div class="rule">🔁 Pomodoro — 25 min deep work + 5 min break</div>
+      <div class="rule">🌐 Community — Hugging Face, LangChain Discord, r/MachineLearning</div>
+      <div class="rule">📊 Numbers beat adjectives — eval scores, trace screenshots, cost dashboards</div>
     </div>
   </div>
 
-  <script src="data.js"></script>
-  <script src="script.js"></script>
+</div>
+
+<!-- ═══ MILESTONE TIMELINE ═══ -->
+<div class="milestone-section">
+  <h3>🏆 Milestone Checkpoints — 26 Weeks to AI Engineer</h3>
+  <div id="milestone-track" class="milestone-track"></div>
+</div>
+
+<!-- ═══ CAPSTONE SUMMARY ═══ -->
+<div class="capstone-section">
+  <h3>🏆 Three Capstone Projects</h3>
+  <div class="capstone-row" id="capstone-row"></div>
+</div>
+
+<!-- ═══ DELAY MODAL ═══ -->
+<div id="delay-modal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <h3>🔴 Log Delay / Slip</h3>
+    <div id="modal-info"></div>
+
+    <label class="modal-label">📝 Reason for delay:</label>
+    <textarea id="modal-reason" placeholder="e.g. Heavy work week, sick, underestimated the topic, needed to revisit prerequisites..."></textarea>
+
+    <label class="modal-label" style="margin-top:14px;">👁️ Visibility:</label>
+    <div class="vis-row">
+      <button id="btn-pub"  class="vis-btn v-pub-active" onclick="setVis('public')">🌐 Public (shown on page)</button>
+      <button id="btn-priv" class="vis-btn"              onclick="setVis('private')">🔒 Private (browser only)</button>
+    </div>
+    <div id="vis-hint" class="vis-hint">🌐 Anyone visiting this GitHub Pages URL will see this reason.</div>
+
+    <div class="modal-actions">
+      <button class="btn-confirm" onclick="confirmDelay()">🔴 Save Delay</button>
+      <button class="btn-cancel"  onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
