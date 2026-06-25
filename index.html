@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🤖 AI Engineer Roadmap Tracker</title>
+  <title>AI Engineer Roadmap Tracker</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
@@ -11,16 +11,16 @@
 <!-- ═══ HEADER ═══ -->
 <header>
   <div class="hd-left">
-    <div class="hd-title">🤖 AI Engineer Roadmap Tracker</div>
-    <div class="hd-sub">9-to-5 Jobber → Production AI Engineer · 26 Weeks · 3 Capstones</div>
+    <div class="hd-title">AI Engineer <span class="accent">Roadmap</span> Tracker</div>
+    <div class="hd-sub">9-to-5 → Production AI Engineer &nbsp;·&nbsp; 26 Weeks &nbsp;·&nbsp; 3 Capstones</div>
   </div>
   <div class="hd-center">
-    <div id="live-clock">🕐 --:--:--</div>
+    <div id="live-clock">--:--:--</div>
     <div id="live-date"></div>
   </div>
   <div class="hd-right">
-    <button class="btn-icon" onclick="confirmResetDay()">🔄 Day</button>
-    <button class="btn-icon" onclick="toggleTheme()">🌗</button>
+    <button class="btn-icon" onclick="confirmResetDay()">Reset Day</button>
+    <button class="btn-icon" onclick="toggleTheme()">Theme</button>
   </div>
 </header>
 
@@ -66,7 +66,7 @@
 
 <!-- ═══ DAILY SLOTS ═══ -->
 <div class="daily-strip">
-  <div class="daily-title">⏰ Today's Study Slots</div>
+  <div class="daily-title">Today's Study Slots</div>
   <div id="daily-slots-container" class="daily-slots"></div>
 </div>
 
@@ -77,8 +77,8 @@
   <div class="panel left-panel" id="left-panel">
     <div class="panel-hdr">
       <div>
-        <h2>📌 Full AI Engineer Curriculum</h2>
-        <span class="panel-sub">9 phases · 26 weeks · 3 capstones · All modules listed</span>
+        <h2>Full AI Engineer Curriculum</h2>
+        <span class="panel-sub">9 phases &nbsp;·&nbsp; 26 weeks &nbsp;·&nbsp; 3 capstones</span>
       </div>
       <div class="filter-row">
         <select id="phase-filter" onchange="render()">
@@ -109,8 +109,8 @@
   <div class="panel right-panel" id="right-panel">
     <div class="panel-hdr">
       <div>
-        <h2>🚦 My Progress</h2>
-        <span class="panel-sub">Live status · auto-delay detection · delay log</span>
+        <h2>My Progress</h2>
+        <span class="panel-sub">Live status &nbsp;·&nbsp; auto-delay detection &nbsp;·&nbsp; delay log</span>
       </div>
     </div>
 
@@ -128,19 +128,19 @@
 
     <!-- Delay Log -->
     <div class="delay-log-wrap">
-      <h3 class="delay-log-title">📋 Delay & Slip Log</h3>
+      <h3 class="delay-log-title">Delay &amp; Slip Log</h3>
       <div id="delay-log-container"></div>
     </div>
 
     <!-- Golden Rules -->
     <div class="golden-rules">
-      <h3>⚡ Golden Rules</h3>
-      <div class="rule">📌 Consistency > Intensity — 1.5 hrs/day beats 8 hrs on weekends</div>
-      <div class="rule">🏗️ Build in Public — every project on GitHub + 90s Loom demo</div>
-      <div class="rule">🎯 70% Hands-on / 30% Theory — ship before you're ready</div>
-      <div class="rule">🔁 Pomodoro — 25 min deep work + 5 min break</div>
-      <div class="rule">🌐 Community — Hugging Face, LangChain Discord, r/MachineLearning</div>
-      <div class="rule">📊 Numbers beat adjectives — eval scores, trace screenshots, cost dashboards</div>
+      <h3>Golden Rules</h3>
+      <div class="rule">Consistency over intensity — 1.5 hrs/day beats 8 hrs on weekends</div>
+      <div class="rule">Build in public — every project on GitHub + 90s Loom demo</div>
+      <div class="rule">70% hands-on / 30% theory — ship before you're ready</div>
+      <div class="rule">Pomodoro — 25 min deep work + 5 min break</div>
+      <div class="rule">Community — Hugging Face, LangChain Discord, r/MachineLearning</div>
+      <div class="rule">Numbers beat adjectives — eval scores, trace screenshots, cost dashboards</div>
     </div>
   </div>
 
@@ -148,34 +148,34 @@
 
 <!-- ═══ MILESTONE TIMELINE ═══ -->
 <div class="milestone-section">
-  <h3>🏆 Milestone Checkpoints — 26 Weeks to AI Engineer</h3>
+  <h3>Milestone Checkpoints — 26 Weeks to AI Engineer</h3>
   <div id="milestone-track" class="milestone-track"></div>
 </div>
 
 <!-- ═══ CAPSTONE SUMMARY ═══ -->
 <div class="capstone-section">
-  <h3>🏆 Three Capstone Projects</h3>
+  <h3>Three Capstone Projects</h3>
   <div class="capstone-row" id="capstone-row"></div>
 </div>
 
 <!-- ═══ DELAY MODAL ═══ -->
 <div id="delay-modal" class="modal-overlay hidden">
   <div class="modal-box">
-    <h3>🔴 Log Delay / Slip</h3>
+    <h3>Log Delay / Slip</h3>
     <div id="modal-info"></div>
 
-    <label class="modal-label">📝 Reason for delay:</label>
+    <label class="modal-label">Reason for delay:</label>
     <textarea id="modal-reason" placeholder="e.g. Heavy work week, sick, underestimated the topic, needed to revisit prerequisites..."></textarea>
 
-    <label class="modal-label" style="margin-top:14px;">👁️ Visibility:</label>
+    <label class="modal-label" style="margin-top:14px;">Visibility:</label>
     <div class="vis-row">
-      <button id="btn-pub"  class="vis-btn v-pub-active" onclick="setVis('public')">🌐 Public (shown on page)</button>
-      <button id="btn-priv" class="vis-btn"              onclick="setVis('private')">🔒 Private (browser only)</button>
+      <button id="btn-pub"  class="vis-btn v-pub-active" onclick="setVis('public')">Public (shown on page)</button>
+      <button id="btn-priv" class="vis-btn"              onclick="setVis('private')">Private (browser only)</button>
     </div>
     <div id="vis-hint" class="vis-hint">🌐 Anyone visiting this GitHub Pages URL will see this reason.</div>
 
     <div class="modal-actions">
-      <button class="btn-confirm" onclick="confirmDelay()">🔴 Save Delay</button>
+      <button class="btn-confirm" onclick="confirmDelay()">Save Delay</button>
       <button class="btn-cancel"  onclick="closeModal()">Cancel</button>
     </div>
   </div>

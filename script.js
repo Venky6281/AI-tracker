@@ -86,7 +86,7 @@ function pendingAfter(week) {
 function updateClock() {
   const n = new Date();
   document.getElementById('live-clock').textContent =
-    '🕐 ' + n.toLocaleTimeString('en-IN', { hour12: false });
+    n.toLocaleTimeString('en-IN', { hour12: false });
   document.getElementById('live-date').textContent =
     n.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 }
@@ -164,13 +164,13 @@ function renderDailySlots() {
 
     if (ok) {
       if (saved === 'done') {
-        cls = 'slot-done'; badge = '✅ Done'; badgeCls = 'sb-done';
+        cls = 'slot-done'; badge = 'Done'; badgeCls = 'sb-done';
       } else if (now >= start && now < end) {
-        cls = 'slot-active'; badge = '▶ NOW'; badgeCls = 'sb-active';
+        cls = 'slot-active'; badge = 'Active Now'; badgeCls = 'sb-active';
       } else if (now >= end) {
-        cls = 'slot-missed'; badge = '⚠ Missed?'; badgeCls = 'sb-missed';
+        cls = 'slot-missed'; badge = 'Missed?'; badgeCls = 'sb-missed';
       } else {
-        cls = 'slot-upcoming'; badge = '⏳ Later'; badgeCls = 'sb-upcoming';
+        cls = 'slot-upcoming'; badge = 'Later'; badgeCls = 'sb-upcoming';
       }
     }
 
@@ -180,7 +180,7 @@ function renderDailySlots() {
       ${badge ? `<span class="slot-badge ${badgeCls}">${badge}</span>` : ''}
       <div class="slot-label">${slot.label}</div>
       <div class="slot-time">${slot.start}–${slot.end}${!ok ? ' <em style="color:var(--muted)">(not today)</em>' : ''}</div>
-      ${ok && saved !== 'done' ? `<button class="btn-done" style="margin-top:5px;font-size:.68rem" onclick="markSlot('${slot.id}')">✅ Mark Done</button>` : ''}
+      ${ok && saved !== 'done' ? `<button class="btn-done" style="margin-top:6px;font-size:.74rem" onclick="markSlot('${slot.id}')">Mark Done</button>` : ''}
     `;
     c.appendChild(d);
   });
@@ -258,13 +258,13 @@ function renderRoadmapList() {
       <div class="ri-top">
         <span class="ri-wk-badge" style="background:${cfg.bg};color:${cfg.color}">${item.weekLabel}</span>
         <span class="ri-topic">${item.topic}</span>
-        ${isNow ? '<span class="ri-now">▶ THIS WEEK</span>' : ''}
+        ${isNow ? '<span class="ri-now">THIS WEEK</span>' : ''}
         ${isCap ? '<span class="ri-capstone-badge">🏆 CAPSTONE</span>' : ''}
       </div>
       <div class="ri-modules">${modHTML}</div>
       <div class="ri-detail">${item.detail}</div>
-      <div class="ri-resources">📚 ${item.resources.join(' · ')}</div>
-      ${item.endState ? `<div class="ri-endstate">🎯 End State: ${item.endState}</div>` : ''}
+      <div class="ri-resources">Resources: ${item.resources.join(' · ')}</div>
+      ${item.endState ? `<div class="ri-endstate">End State: ${item.endState}</div>` : ''}
       ${item.milestone ? `<div class="ri-milestone">${item.milestone}</div>` : ''}
     `;
     c.appendChild(div);
@@ -283,7 +283,7 @@ function renderProgress() {
   if (item) {
     const cfg = PHASE_CONFIG[item.phase];
     document.getElementById('focus-card').innerHTML = `
-      <div class="fc-label">🎯 This Week's Focus</div>
+      <div class="fc-label">This Week's Focus</div>
       <div class="fc-week" style="color:${cfg.color}">Week ${item.week} — ${item.topic}</div>
       <div class="fc-topic">${item.detail}</div>
       <div class="fc-phase">${cfg.label} · ${cfg.weeks} · ${cfg.difficulty}</div>
@@ -294,7 +294,7 @@ function renderProgress() {
   // ── Week Schedule ──
   if (item) {
     document.getElementById('week-schedule').innerHTML = `
-      <div class="wsb-title">📅 This Week's Daily Plan</div>
+      <div class="wsb-title">This Week's Daily Plan</div>
       <div class="wsb-row"><div class="wsb-icon">🌅</div><div class="wsb-body"><div class="wsb-time">6:30–7:30 AM Mon–Fri</div><div>${item.morning}</div></div></div>
       <div class="wsb-row"><div class="wsb-icon">🌙</div><div class="wsb-body"><div class="wsb-time">8:00–9:30 PM Mon–Fri</div><div>${item.evening}</div></div></div>
       <div class="wsb-row"><div class="wsb-icon">🗓️</div><div class="wsb-body"><div class="wsb-time">Saturday 9 AM–1 PM</div><div>${item.saturday}</div></div></div>
@@ -307,9 +307,9 @@ function renderProgress() {
   const alertEl = document.getElementById('delay-alert');
   if (autoD.length > 0) {
     alertEl.classList.remove('hidden');
-    alertEl.innerHTML = `⚠️ <strong>${autoD.length} week(s) auto-flagged as delayed</strong> — time passed without marking done:<br/>
-      ${autoD.map(w => `• Week ${w.week}: ${w.topic}`).join('<br/>')}
-      <br/><span style="color:var(--muted);font-size:.68rem;">Please mark done ✅ or log a delay reason 🔴 below.</span>`;
+    alertEl.innerHTML = `<strong>${autoD.length} week(s) auto-flagged as delayed</strong> — time passed without marking done:<br/>
+      ${autoD.map(w => `&nbsp; Week ${w.week}: ${w.topic}`).join('<br/>')}
+      <br/><span style="color:var(--muted2);font-size:.74rem">Mark done or log a delay reason below.</span>`;
   } else {
     alertEl.classList.add('hidden');
   }
@@ -341,17 +341,17 @@ function renderProgress() {
 
     let btns = '';
     if (eff !== 'completed')
-      btns += `<button class="btn-done"  onclick="markDone(${w.week})">✅ Done</button>`;
+      btns += `<button class="btn-done"  onclick="markDone(${w.week})">Mark Done</button>`;
     if (eff !== 'delayed' && eff !== 'completed')
-      btns += `<button class="btn-delay" onclick="openModal(${w.week})">🔴 Delay Reason</button>`;
+      btns += `<button class="btn-delay" onclick="openModal(${w.week})">Log Delay</button>`;
     if (eff !== 'pending')
-      btns += `<button class="btn-undo"  onclick="resetWeek(${w.week})">↩️ Reset</button>`;
+      btns += `<button class="btn-undo"  onclick="resetWeek(${w.week})">Reset</button>`;
 
     div.innerHTML = `
       <span class="pi-chip ${chip.cls}">${chip.lbl}</span>
       <div class="pi-name">Week ${w.week}: ${w.topic}</div>
       <div class="pi-detail" style="color:${cfg.color}">${cfg.label}</div>
-      ${eff === 'auto-delay' ? `<div class="pi-overdue">⏰ This week passed without completion — please act!</div>` : ''}
+      ${eff === 'auto-delay' ? `<div class="pi-overdue">This week passed without a completion mark — please act.</div>` : ''}
       <div class="action-row">${btns}</div>
     `;
     piEl.appendChild(div);
@@ -374,7 +374,7 @@ function renderDelayLog() {
   const manual = Object.entries(RS).filter(([, v]) => v.status === 'delayed');
 
   if (!autoNoReason.length && !manual.length) {
-    c.innerHTML = '<div class="no-delay">🎉 No delays logged — keep the streak alive! 💪</div>';
+    c.innerHTML = '<div class="no-delay">No delays logged — keep the streak alive.</div>';
     return;
   }
 
@@ -383,11 +383,11 @@ function renderDelayLog() {
     const d = document.createElement('div');
     d.className = 'delay-entry';
     d.innerHTML = `
-      <div class="de-task">🟠 Week ${item.week}: ${item.topic}</div>
+      <div class="de-task">Week ${item.week}: ${item.topic}</div>
       <div class="de-meta">${PHASE_CONFIG[item.phase].label}</div>
-      <div style="color:var(--orange);margin-top:3px">⚠️ Auto-detected — no reason given yet</div>
-      <div class="de-pending">📌 ${after} week(s) still pending after this</div>
-      <button class="btn-delay" style="margin-top:5px;font-size:.68rem" onclick="openModal(${item.week})">📝 Add Reason</button>
+      <div style="color:var(--orange);margin-top:3px">Auto-detected — no reason given yet</div>
+      <div class="de-pending">${after} week(s) still pending after this</div>
+      <button class="btn-delay" style="margin-top:5px;font-size:.72rem" onclick="openModal(${item.week})">Add Reason</button>
     `;
     c.appendChild(d);
   });
@@ -404,10 +404,10 @@ function renderDelayLog() {
     const d = document.createElement('div');
     d.className = 'delay-entry';
     d.innerHTML = `
-      <div class="de-task">🔴 Week ${wk}: ${item.topic}</div>
-      <div class="de-meta">${PHASE_CONFIG[item.phase].label} · Logged: ${info.timestamp}</div>
+      <div class="de-task">Week ${wk}: ${item.topic}</div>
+      <div class="de-meta">${PHASE_CONFIG[item.phase].label} &nbsp;·&nbsp; Logged: ${info.timestamp}</div>
       ${reasonHTML}
-      <div class="de-pending">📌 ${after} week(s) still pending after this</div>
+      <div class="de-pending">${after} week(s) still pending after this</div>
     `;
     c.appendChild(d);
   });
@@ -482,12 +482,12 @@ function renderCapstones() {
     const div = document.createElement('div');
     div.className = `cap-card ${cls}`;
     div.innerHTML = `
-      <div class="cap-num">🏆 CAPSTONE ${cap.num}</div>
+      <div class="cap-num">CAPSTONE ${cap.num}</div>
       <div class="cap-title">${cap.title}</div>
       <div class="cap-weeks">${cap.weeks} · ${cap.domain}</div>
       <div class="cap-stack">${techHTML}</div>
       <div class="cap-status ${scls}">${slbl}</div>
-      <div style="font-size:.65rem;color:var(--muted);margin-top:6px;font-style:italic">Proves: ${cap.proves}</div>
+      <div style="font-size:.72rem;color:var(--muted);margin-top:8px;font-style:italic">${cap.proves}</div>
     `;
     row.appendChild(div);
   });
